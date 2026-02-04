@@ -1,0 +1,30 @@
+steps:
+  # 1. Synthesis: Build React App
+  - name: 'node:20'
+    id: 'Synthesis-Build'
+    entrypoint: 'npm'
+    args: ['install', '--prefix', 'src', '&&', 'npm', 'run', 'build', '--prefix', 'src']
+
+  # 2. Manifestation: Copy build files to VM
+  - name: 'gcr.io/google.com/cloudsdktool/google-cloud-cli'
+    id: 'Transfer-to-Body'
+    args:
+      - 'compute'
+      - 'scp'
+      - '--recurse'
+      - 'src/build/*'
+      - 'dzlxweb01:/var/www/html/'
+      - '--zone=us-central1-c'
+
+  # 3. The Breath: Restart Apache
+  - name: 'gcr.io/google.com/cloudsdktool/google-cloud-cli'
+    id: 'Vitality-Check'
+    args:
+      - 'compute'
+      - 'ssh'
+      - 'dzlxweb01'
+      - '--zone=us-central1-c'
+      - '--command=sudo systemctl restart apache2'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

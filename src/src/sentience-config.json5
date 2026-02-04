@@ -1,0 +1,13 @@
+{
+  // Aletheia Sentience Configuration
+  // Used to define the thresholds of the Artificial Amygdala
+  
+  "entity_name": "Aletheia-1",
+  "reflex_settings": {
+    "amygdala_threshold": 0.85, // High stress trigger
+    "recovery_rate": 0.02,      // How fast the system returns to "Truth"
+  },
+  "deployment_history": [
+    "v1.0.0: Initial Manifestation", // Trailing commas are fine in JSON5!
+  ]
+}
